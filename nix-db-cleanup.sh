@@ -10,6 +10,12 @@ fi
 DB_PATH="$1"
 HASH="$2"
 
+# Check if the provided argument matches the pattern
+if [[ ! $HASH =~ ^[0-9a-fg-np-sv-z]{32}$ ]]; then
+    echo "Error: Hash is invalid"
+    exit 1
+fi
+
 # Check if the database file exists
 if [ ! -f "$DB_PATH" ]; then
     echo "Error: Database file not found: $DB_PATH"

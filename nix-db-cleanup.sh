@@ -6,6 +6,16 @@ if [ $# -ne 2 ]; then
     exit 1
 fi
 
+if ! command -v sqlite3 2>&1 >/dev/null then
+    echo "Error: sqlite3 not in PATH"
+    exit 1
+fi
+
+if ! command -v sed 2>&1 >/dev/null then
+    echo "Error: sed not in PATH"
+    exit 1
+fi
+
 # Path to the SQLite database, usually "/nix/var/nix/db/db.sqlite"
 DB_PATH="$1"
 HASH="$2"

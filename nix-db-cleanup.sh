@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+set -uo pipefail
+
+# Check for root privileges
+if [[ $EUID -ne 0 ]]; then
+    echo "This script must be run as root."
+    exit 1
+fi
+
 # Check if both arguments are provided
 if [ $# -ne 2 ]; then
     echo "Usage: $0 <database_path> <HASH>"
@@ -64,5 +72,12 @@ DROP TABLE derivation_output_ids;
 -- Commit the transaction
 COMMIT;
 EOF
+
+exit_code=$?
+
+if [ $exit_code -ne 0 ]; then
+    echo "SQLite error: Failed to update database, exit code $exit_code."
+    exit $exit_code
+fi
 
 echo "SQLite commands executed successfully."

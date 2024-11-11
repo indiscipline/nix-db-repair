@@ -10,7 +10,7 @@ You run `nix-store --gc`, and get the error. Easy fix, you enter `nix-shell -p s
 
 Make sure `bash`, `sqlite3` and `sed` are accessibly from your environment.
 
-`DB_PATH` is usually `/nix/car/nix/db/db.sqlite`
+`DB_PATH` is usually `/nix/var/nix/db/db.sqlite`
 
 > [!WARNING]
 > Make a backup of your database first!

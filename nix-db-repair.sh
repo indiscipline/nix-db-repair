@@ -36,7 +36,7 @@ extract_hash() {
 # Main loop
 while true; do
     # Run nix-store --gc and capture stderr while discarding stdout
-    local error_output=$(nix-store --gc 2>&1 >/dev/null)
+    error_output=$(nix-store --gc 2>&1 >/dev/null)
 
     # Check if the error output is empty (meaning no errors occurred)
     if [ -z "$error_output" ]; then
@@ -45,7 +45,7 @@ while true; do
     fi
 
     # Check if the last line of the error output matches the specific error
-    local last_line=$(echo "$error_output" | tail -n 1)
+    last_line=$(echo "$error_output" | tail -n 1)
     if [[ $last_line == "error: executing SQLite statement 'delete from ValidPaths where path = '$NIX_STORE_PATH/"*"';':"* ]]; then
         # Extract the HASH
         HASH=$(extract_hash "$last_line")
@@ -60,7 +60,7 @@ while true; do
             if [ -x "$CLEANUP_SCRIPT" ]; then
                 echo "Running cleanup script for $HASH"
                 "$CLEANUP_SCRIPT" "$DB_PATH" "$HASH"
-                local cleanup_exit_code=$?
+                cleanup_exit_code=$?
                 if [ $cleanup_exit_code -ne 0 ]; then
                     echo "Cleanup script failed with exit code $cleanup_exit_code"
                     exit $cleanup_exit_code
